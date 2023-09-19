@@ -50,7 +50,7 @@ def test_move_to_white_square(init_board):
 
 def test_move_black_soldier_forward(init_board):
     assert init_board.board[6][1].soldier is not None
-    init_board.board[6][1].soldier = None
+    init_board.board[6][1].remove_soldier()
     assert init_board.board[6][1].soldier is None
     try:
         init_board.move_soldier(old_square=init_board.board[5][0], new_square=init_board.board[6][1])
@@ -62,7 +62,7 @@ def test_move_black_soldier_forward(init_board):
 
 def test_move_white_soldier_backward(init_board):
     assert init_board.board[1][0].soldier is not None
-    init_board.board[1][0].soldier = None
+    init_board.board[1][0].remove_soldier()
     assert init_board.board[1][0].soldier is None
     try:
         init_board.move_soldier(old_square=init_board.board[2][1], new_square=init_board.board[1][0])
