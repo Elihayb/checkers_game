@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Python Coverage
+      uses: orgoro/coverage@v3.1
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -36,4 +38,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        pytest --cov-report xml:p./coverage.xml
