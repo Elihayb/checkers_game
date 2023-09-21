@@ -14,7 +14,6 @@ class Soldier:
         self.is_king = False
         self.row = row
         self.col = col
-        self.direction = 1 if Config.WHITE else -1
         self.x = 0
         self.y = 0
         self.calc_pos()
