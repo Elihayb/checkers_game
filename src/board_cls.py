@@ -45,9 +45,7 @@ class Board:
             return
         self.board[row][col] = self.board[soldier.row][soldier.col]
         self.board[soldier.row][soldier.col] = 0
-        soldier.row = row
-        soldier.col = col
-        soldier.calc_pos()
+        soldier.move(row, col)
         if (row == Config.ROWS or row == 0) and soldier.is_king is False:
             soldier.make_king()
             if soldier.color == Config.WHITE:
