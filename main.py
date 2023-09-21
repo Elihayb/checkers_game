@@ -1,7 +1,7 @@
-from src.board_cls import Board
 import pygame
 
 from config import Config
+from src.game_cls import Game
 
 WIN = pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
 pygame.display.set_caption('Checkers')
@@ -15,7 +15,7 @@ def get_row_col_from_mouse(pos):
 
 
 if __name__ == '__main__':
-    board = Board()
+    game = Game(WIN)
     run = True
     clock = pygame.time.Clock()
     while run:
@@ -26,8 +26,6 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                soldier = board.get_soldier(row, col)
-                board.move(soldier=soldier, row=4, col=3)
-        board.draw(WIN)
-        pygame.display.update()
+                game.select(row, col)
+        game.update()
     pygame.quit()
