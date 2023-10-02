@@ -26,6 +26,23 @@ class Board:
                 if self.board[row][col] != 0:
                     self.board[row][col].draw(win)
 
+    def remove(self, soldiers: list):
+        for s in soldiers:
+            self.board[s.row][s.col] = 0
+            if s != 0:
+                if s.color == Config.BLACK:
+                    self.black_left -= 1
+                else:
+                    self.white_left -= 1
+
+    def winner(self):
+        if self.black_left <= 0:
+            return Config.WHITE
+        elif self.white_left <= 0:
+            return Config.BLACK
+        else:
+            return None
+
     def init_start_game(self):
         for row in range(Config.ROWS):
             self.board.append([])
@@ -46,7 +63,7 @@ class Board:
         self.board[row][col] = self.board[soldier.row][soldier.col]
         self.board[soldier.row][soldier.col] = 0
         soldier.move(row, col)
-        if (row == Config.ROWS or row == 0) and soldier.is_king is False:
+        if (row == Config.ROWS - 1 or row == 0) and soldier.is_king is False:
             soldier.make_king()
             if soldier.color == Config.WHITE:
                 self.white_king += 1
@@ -75,11 +92,11 @@ class Board:
                 self._traverse_left(start=row - 1, stop=max(row - 3, -1), step=-1, color=soldier.color, left=left))
             moves.update(
                 self._traverse_right(start=row - 1, stop=max(row - 3, -1), step=-1, color=soldier.color, right=right))
-        elif soldier.color == Config.WHITE or soldier.is_king:
-            moves.update(self._traverse_left(start=row + 1, stop=max(row + 3, Config.ROWS), step=1, color=soldier.color,
+        if soldier.color == Config.WHITE or soldier.is_king:
+            moves.update(self._traverse_left(start=row + 1, stop=min(row + 3, Config.ROWS), step=1, color=soldier.color,
                                              left=left))
             moves.update(
-                self._traverse_right(start=row + 1, stop=max(row + 3, Config.ROWS), step=1, color=soldier.color,
+                self._traverse_right(start=row + 1, stop=min(row + 3, Config.ROWS), step=1, color=soldier.color,
                                      right=right))
         return moves
 
@@ -134,8 +151,8 @@ class Board:
                         row = max(r - 3, 0)
                     else:
                         row = min(r + 3, Config.ROWS)
-                    moves.update(self._traverse_right(start=r + step, stop=row, step=step, right=right - 1, color=color,
-                                                      skipped=last))
+                    moves.update(self._traverse_left(start=r + step, stop=row, step=step, left=right - 1, color=color,
+                                                     skipped=last))
                     moves.update(
                         self._traverse_right(start=r + step, stop=row, step=step, right=right + 1, color=color,
                                              skipped=last))
