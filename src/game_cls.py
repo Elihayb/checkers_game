@@ -48,11 +48,15 @@ class Game:
         soldier = self.board.get_soldier(row, col)
         if self.selected and soldier == 0 and (row, col) in self.valid_moves:
             self.board.move(self.selected, row, col)
-            self.valid_moves = {}
+            skipped = self.valid_moves[(row, col)]
+            if skipped:
+                self.board.remove(skipped)
+            self.change_turn()
             return True
         return False
 
     def change_turn(self):
+        self.valid_moves = {}
         if self.turn == Config.BLACK:
             self.turn = Config.WHITE
         else:
