@@ -20,6 +20,8 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     while run:
         clock.tick(Config.FPS)
+        if game.board.winner() is not None:
+            print(game.board.winner())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
